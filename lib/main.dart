@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const FinanceApp());
@@ -7,12 +10,26 @@ class FinanceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: MyHomePage());
+    return MaterialApp(home: MyHomePage());
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  final _transctions = [
+    Transaction(
+      id: 't1',
+      title: 'novo tenis de corrida',
+      value: 310.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Conta de luz',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+  ];
+  MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +37,20 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Finanças pessoais'),
       ),
-      body: const Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Card(
+          const Card(
+            color: Colors.blue,
             child: Text('Grafico'),
           ),
-          Card(
-            child: Text('Lista de Transação'),
+          Column(
+            children: _transctions.map((tr) {
+              return Card(
+                child: Text(tr.title),
+              );
+            }).toList(),
           ),
         ],
       ),
